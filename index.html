@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>dan-note-manager</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1>dan-note-manager</h1>
+        <div v-text="orginalText"></div>
+        <div v-text="translatedText"></div>
+        <span v-text="sentence"></span>
+        <input type="text" v-model="playground"/>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
