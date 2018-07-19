@@ -7,10 +7,16 @@
 
 <script>
 export default {
-    props: ['translation']
+  props: ["translation"]
 };
 </script>
 
 <style lang="scss" scoped>
-
+tr {
+  font-size: 1.2em;
+  text-align: left;
+}
+td {
+  padding: 20px 40px;
+}
 </style>

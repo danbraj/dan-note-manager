@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="application">
     <h1>{{ title }}</h1>
     <app-main></app-main>
   </div>
@@ -7,26 +7,27 @@
 
 <script>
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  data() {
     return {
-      title: 'My Vue.js app!'
-    }
+      title: "My Vue.js app!"
+    };
   }
-}
+};
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+.application {
+  font-family: Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 
