@@ -17,6 +17,11 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .application {
   font-family: Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;

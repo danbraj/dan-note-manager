@@ -1,16 +1,26 @@
 <template>
     <div class="main">
-        <textarea class="main__textarea main__textarea_left" v-text="originalText" @change="parseText"></textarea>
-        <textarea class="main__textarea main__textarea_right" v-text="translatedText"></textarea>
-        <table class="main__list-of-sentences">
-            <single-translation v-for="(tr, index) in translationsList" :key="index" :translation="tr" @click.native="chooseSentence(index)"></single-translation>
-        </table>
-        <div class="form">
-          <p class="textblock" v-text="activeSentence"></p>
-          <p class="textblock" v-text="activetranslatedSentence"></p>
-          <input class="form__textbox" type="text" v-model="translatedSentence"/>
-          <button class="form__button" @click="setTranslation">Zapisz</button>
-        </div>
+      <div class="main__textarea_left">
+        <label>
+          Treść oryginalna (wklej tutaj)
+          <textarea class="main__textarea" v-text="originalText" @change="parseText"></textarea>
+        </label>
+      </div>
+      <div class="main__textarea_right">
+        <label>
+          Treść przetłumaczona (wynikowa)
+        <textarea class="main__textarea" v-text="translatedText" readonly></textarea>
+        </label>
+      </div>
+      <table class="main__list-of-sentences">
+          <single-translation v-for="(tr, index) in translationsList" :key="index" :translation="tr" @click.native="chooseSentence(index)"></single-translation>
+      </table>
+      <div class="form">
+        <p class="textblock" v-text="activeSentence"></p>
+        <p class="textblock" v-text="activetranslatedSentence"></p>
+        <input class="form__textbox" type="text" v-model="translatedSentence"/>
+        <button class="form__button" @click="setTranslation">Zapisz</button>
+      </div>
     </div>
 </template>
 
@@ -54,14 +64,12 @@ export default {
     },
     parseText() {
       const sentences = event.target.value.split(". ");
-      let tmp = [];
-      this.translationsList = sentences.reduce((el, item, index) => {
-        tmp.push({
-          original: item,
-          translated: item
-        });
-        return tmp;
-      }, {});
+      this.translationsList = sentences.map(el => {
+        return {
+          original: el,
+          translated: el
+        };
+      });
     }
   }
 };
@@ -71,23 +79,27 @@ export default {
 .main {
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 300px auto 200px;
+  grid-template-rows: 400px auto;
   grid-template-areas:
     "text-left text-right"
-    "sentences sentences"
-    "form form";
+    "sentences sentences";
 }
 .main__textarea {
+  width: 100%;
+  height: 100%;
+  display: block;
   outline: none;
   resize: none;
-  margin: 20px;
-  padding: 14px;
 }
 .main__textarea_left {
   grid-area: text-left;
+  margin: 20px;
+  padding: 14px;
 }
 .main__textarea_right {
   grid-area: text-right;
+  margin: 20px;
+  padding: 14px;
 }
 .main__list-of-sentences {
   grid-area: sentences;
@@ -97,7 +109,10 @@ export default {
   margin: 0;
 }
 .form {
-  grid-area: form;
+  background-color:bisque;
+  width: 100%;
+  bottom: 0;
+  position: fixed;
 }
 .form__textbox {
   box-sizing: border-box;
