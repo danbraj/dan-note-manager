@@ -1,24 +1,24 @@
 <template>
-    <div class="main">
-      <div class="main__textarea_left">
+    <div class="container">
+      <div class="side-block_top">
         <label>
-          Treść oryginalna (wklej tutaj)
-          <textarea class="main__textarea" v-text="originalText" @change="parseText"></textarea>
+          Treść oryginalna
+          <textarea class="textarea" v-text="originalText" @change="parseText" placeholder="Wklej tekst tutaj"></textarea>
         </label>
       </div>
-      <div class="main__textarea_right">
+      <div class="side-block_bottom">
         <label>
-          Treść przetłumaczona (wynikowa)
-        <textarea class="main__textarea" v-text="translatedText" readonly></textarea>
+          Tłumaczenie wynikowe (piękne lub wierne)
+        <textarea class="textarea" v-text="translatedText" readonly></textarea>
         </label>
       </div>
-      <table class="main__list-of-sentences">
-          <single-translation v-for="(tr, index) in translationsList" :key="index" :translation="tr" @click.native="chooseSentence(index)"></single-translation>
-      </table>
+      <div class="list-of-sentences">
+          <single-translation v-for="(row, index) in translationsList" :key="index" :translation="row" @click.native="chooseSentence(index)"></single-translation>
+      </div>
       <div class="form">
         <p class="textblock" v-text="activeSentence"></p>
         <p class="textblock" v-text="activetranslatedSentence"></p>
-        <input class="form__textbox" type="text" v-model="translatedSentence"/>
+        <input class="form__textbox" type="text" v-model="translatedSentence" placeholder="Wpisz tłumaczenie powyższego zdania"/>
         <button class="form__button" @click="setTranslation">Zapisz</button>
       </div>
     </div>
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       chosenSentence: 0,
-      originalText: "Original text. Test. Ala ma kota.",
+      originalText: "",
       translationsList: [],
       translatedSentence: ""
     };
@@ -67,7 +67,7 @@ export default {
       this.translationsList = sentences.map(el => {
         return {
           original: el,
-          translated: el
+          translated: '<<potrzebne tłumaczenie>>'
         };
       });
     }
@@ -76,54 +76,70 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 400px auto;
-  grid-template-areas:
-    "text-left text-right"
-    "sentences sentences";
+label {
+  line-height: 30px;
 }
-.main__textarea {
+.container {
+  display: grid;
+  grid-template-columns: 420px auto;
+  grid-template-rows: 450px 450px minmax(200px, auto);
+  grid-template-areas:
+    "side-up main"
+    "side-bottom main"
+    ". main";
+}
+.textarea {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 8px;
   width: 100%;
-  height: 100%;
+  height: 400px;
   display: block;
   outline: none;
   resize: none;
 }
-.main__textarea_left {
-  grid-area: text-left;
-  margin: 20px;
-  padding: 14px;
+.side-block_top {
+  grid-area: side-up;
+  padding: 10px;
 }
-.main__textarea_right {
-  grid-area: text-right;
-  margin: 20px;
-  padding: 14px;
+.side-block_bottom {
+  grid-area: side-bottom;
+  padding: 10px;
 }
-.main__list-of-sentences {
-  grid-area: sentences;
-}
-.textblock {
-  padding: 20px;
-  margin: 0;
+.list-of-sentences {
+  grid-area: main;
 }
 .form {
-  background-color:bisque;
+  background-color: #6a84ca;
   width: 100%;
   bottom: 0;
   position: fixed;
+  display: grid;
+  grid-template-columns: auto 200px;
+  grid-template-rows: 60px 60px 60px;
+  grid-template-areas:
+    "text-original btn"
+    "text-translated btn"
+    "input-block btn";
+}
+.textblock {
+  font-size: 1.4em;
+  line-height: 60px;
+  padding-left: 12px;
+  margin: 0;
+}
+.textblock:first-of-type {
+  font-weight: bold;
 }
 .form__textbox {
+  grid-area: input-block;
   box-sizing: border-box;
   border: 1px solid #6a84ca;
-  padding: 7px;
-  margin: 0px auto;
-  width: 400px;
-  height: 34px;
+  padding: 12px;
+  margin: 8px 0 8px 8px;
 }
 .form__button {
-  width: 200px;
+  grid-area: btn;
   display: block;
   color: #000;
   border: 1px #6a84ca solid;
@@ -132,7 +148,10 @@ export default {
   cursor: pointer;
   font-size: 0.78em;
   text-transform: uppercase;
-  margin: 10px auto;
-  padding: 12px 20px;
+  margin: 8px;
+  &:hover {
+    background: darken(#6a84ca, 20%);
+    color: #fff;
+  }
 }
 </style>

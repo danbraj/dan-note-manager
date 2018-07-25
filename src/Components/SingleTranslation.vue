@@ -1,22 +1,29 @@
 <template>
-    <tr>
-        <td>{{ translation.original }}</td>
-        <td>{{ translation.translated }}</td>
-    </tr>
+    <div class="single-translation">
+        <p>{{ translation.original }}</p>
+        <p>{{ translation.translated }}</p>
+    </div>
 </template>
 
 <script>
+// TODO: dodanie numerowania zdań
 export default {
   props: ["translation"]
 };
 </script>
 
 <style lang="scss" scoped>
-tr {
+p {
+  margin: 0;
   font-size: 1.2em;
   text-align: left;
+  padding: 8px;
 }
-td {
-  padding: 20px 40px;
+.single-translation {
+  margin: 8px 0;
+  &:hover {
+    background-color: #f0e68c;
+    cursor: pointer;
+  }
 }
 </style>

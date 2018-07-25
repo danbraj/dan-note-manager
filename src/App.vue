@@ -1,6 +1,9 @@
 <template>
   <div id="app" class="application">
-    <h1>{{ title }}</h1>
+    <header>
+      <img class="logo" src="./assets/logo.svg" />
+      <h1 class="title">{{ title }}</h1>
+    </header>
     <app-main></app-main>
   </div>
 </template>
@@ -17,18 +20,17 @@ export default {
 </script>
 
 <style lang="scss">
+$primary-color: #6a84ca;
+
 body {
   margin: 0;
   padding: 0;
 }
 
-.application {
-  font-family: Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 20px;
+header {
+  height: 80px;
+  background-color: $primary-color;
+  position: relative;
 }
 
 h1,
@@ -48,5 +50,24 @@ li {
 
 a {
   color: #42b983;
+}
+
+.application {
+  font-family: Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.logo {
+  top: 7px;
+  left: 7px;
+  height: 66px;
+  position: absolute;
+}
+
+.title {
+  margin: 0 90px;
+  line-height: 80px;
+  display: inline-block;
 }
 </style>
