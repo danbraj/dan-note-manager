@@ -8,7 +8,7 @@
       </div>
       <div class="side-block_bottom">
         <label>
-          Tłumaczenie wynikowe (piękne lub wierne)
+          Tłumaczenie wynikowe (piękne lub/i wierne)
         <textarea class="textarea" v-text="translatedText" readonly></textarea>
         </label>
       </div>
@@ -18,7 +18,7 @@
       <div class="form">
         <p class="textblock" v-text="activeSentence"></p>
         <p class="textblock" v-text="activetranslatedSentence"></p>
-        <input class="form__textbox" type="text" v-model="translatedSentence" placeholder="Wpisz tłumaczenie powyższego zdania"/>
+        <input class="form__textbox" type="text" v-model="translatedSentence" placeholder="Wpisz tłumaczenie powyższego zdania, a następnie kliknij ZAPISZ"/>
         <button class="form__button" @click="setTranslation">Zapisz</button>
       </div>
     </div>
@@ -38,7 +38,10 @@ export default {
         : "";
     },
     translatedText() {
-      return this.translationsList.map(el => el.translated).join(". ");
+      return this.translationsList
+        .map(el => el.translated)
+        .join(" ")
+        .trim();
     },
     activetranslatedSentence() {
       return this.translatedSentence;
@@ -60,14 +63,19 @@ export default {
     },
     chooseSentence(index) {
       this.chosenSentence = index;
-      this.translatedSentence = "";
+      this.translatedSentence = this.translationsList[
+        this.chosenSentence
+      ].translated;
     },
     parseText() {
-      const sentences = event.target.value.split(". ");
+      let counter = 0;
+      const text = event.target.value;
+      const sentences = text.match(/[^\.!\?]+[\.!\?]+/g); // + kropki po sobie, po kropce spacja
       this.translationsList = sentences.map(el => {
         return {
           original: el,
-          translated: '<<potrzebne tłumaczenie>>'
+          translated: "",
+          idx: ++counter
         };
       });
     }
@@ -76,6 +84,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../scss/base/variables";
 label {
   line-height: 30px;
 }
@@ -110,7 +119,7 @@ label {
   grid-area: main;
 }
 .form {
-  background-color: #6a84ca;
+  background-color: $primary-color;
   width: 100%;
   bottom: 0;
   position: fixed;
@@ -134,7 +143,7 @@ label {
 .form__textbox {
   grid-area: input-block;
   box-sizing: border-box;
-  border: 1px solid #6a84ca;
+  border: 1px solid $primary-color;
   padding: 12px;
   margin: 8px 0 8px 8px;
 }
@@ -142,7 +151,7 @@ label {
   grid-area: btn;
   display: block;
   color: #000;
-  border: 1px #6a84ca solid;
+  border: 1px solid $primary-color;
   background: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -150,8 +159,7 @@ label {
   text-transform: uppercase;
   margin: 8px;
   &:hover {
-    background: darken(#6a84ca, 20%);
-    color: #fff;
+    background: $secondary-color;
   }
 }
 </style>

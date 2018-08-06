@@ -10,3 +10,6 @@ yarn-error.log
 *.ntvs*
 *.njsproj
 *.sln
+
+# Visual Studio Code cfg
+.vscode

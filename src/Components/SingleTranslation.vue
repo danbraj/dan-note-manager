@@ -1,29 +1,52 @@
 <template>
     <div class="single-translation">
-        <p>{{ translation.original }}</p>
-        <p>{{ translation.translated }}</p>
+      <p class="number">{{ translation.idx }}</p>
+      <p class="original">{{ translation.original }}</p>
+      <p class="translated">{{ translate }}</p>
     </div>
 </template>
 
 <script>
-// TODO: dodanie numerowania zdań
 export default {
-  props: ["translation"]
+  props: ["translation"],
+  computed: {
+    translate() {
+      return this.translation.translated == '' ? '<< potrzebne tłumaczenie >>' : this.translation.translated
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-p {
-  margin: 0;
-  font-size: 1.2em;
-  text-align: left;
-  padding: 8px;
-}
+@import '../scss/base/variables';
 .single-translation {
+  background-color: lighten($primary-color, 30%);
   margin: 8px 0;
+  display: grid;
+  grid-template: 1fr 1fr / 40px 1fr;
   &:hover {
-    background-color: #f0e68c;
+    background-color: $secondary-color;
     cursor: pointer;
   }
+}
+.translations {
+  font-size: 1.2em;
+}
+.original,
+.translated {
+  text-align: left;
+  margin: 0;
+  padding: 8px;
+}
+.number {
+  grid-area: 1 / 1 / 3 / 2;
+  margin: auto;
+  font-weight: 600;
+}
+.original {
+  grid-area: 1 / 2;
+}
+.translated {
+  grid-area: 2 / 2;
 }
 </style>

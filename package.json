@@ -1,8 +1,8 @@
 {
-  "name": "dan-manager",
+  "name": "translation-helper",
   "description": "A Vue.js project",
   "version": "0.1.0",
-  "author": "danbraj <danbraj@users.noreply.github.com>",
+  "author": "danbraj",
   "license": "MIT",
   "private": true,
   "scripts": {
