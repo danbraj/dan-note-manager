@@ -1,31 +1,58 @@
 <template>
-    <div class="container">
-      <div class="side-block_top">
-        <label>
-          Treść oryginalna
-          <textarea class="textarea" v-text="originalText" @change="parseText" placeholder="Wklej tekst tutaj"></textarea>
-        </label>
+  <main class="container">
+    <div class="box original-box">
+      <label class="label original-box__title" for="original-text">Treść oryginalna</label>
+      <textarea id="original-text" class="textarea" v-text="originalText" @change="parseText" placeholder="Wklej tekst tutaj"></textarea>
+      <button class="btn btn--load">Wczytaj</button>
+    </div><div class="box result-box">
+      <label class="label result-box__title" for="result-text">Tłumaczenie wynikowe</label>
+      <textarea id="result-text" class="textarea" v-text="translatedText" readonly></textarea>
+      <button class="btn btn--copy">Kopiuj</button>
+    </div>
+    <div class="sentences">
+      <single-translation v-for="(row, index) in translationsList" :key="index" :translation="row" @click.native="chooseSentence(index)"></single-translation>
+    </div>
+
+    <div class="form">
+      <p class="textblock" v-text="activeSentence"></p>
+      <p class="textblock" v-text="activetranslatedSentence"></p>
+      <input class="form__textbox" type="text" v-model="translatedSentence" placeholder="Wpisz tłumaczenie powyższego zdania, a następnie kliknij ZAPISZ"/>
+      <button class="form__button" @click="setTranslation">Zapisz</button>
+      
+      <p></p>
+
+      <div class="switch-toggle switch-holo">
+        <input id="s1_1" name="s1" type="radio">
+        <label for="s1_1" onclick="">Piękne</label>
+
+        <input id="s1_2" name="s1" type="radio" checked>
+        <label for="s1_2" onclick="">*</label>
+
+        <input id="s1_3" name="s1" type="radio">
+        <label for="s1_3" onclick="">Wierne</label>
+
+        <a></a>
       </div>
-      <div class="side-block_bottom">
-        <label>
-          Tłumaczenie wynikowe (piękne lub/i wierne)
-        <textarea class="textarea" v-text="translatedText" readonly></textarea>
-        </label>
-      </div>
-      <div class="list-of-sentences">
-          <single-translation v-for="(row, index) in translationsList" :key="index" :translation="row" @click.native="chooseSentence(index)"></single-translation>
-      </div>
-      <div class="form">
-        <p class="textblock" v-text="activeSentence"></p>
-        <p class="textblock" v-text="activetranslatedSentence"></p>
-        <input class="form__textbox" type="text" v-model="translatedSentence" placeholder="Wpisz tłumaczenie powyższego zdania, a następnie kliknij ZAPISZ"/>
-        <button class="form__button" @click="setTranslation">Zapisz</button>
+
+      <div class="switch-toggle switch-holo">
+        <input id="s2_1" name="s2" type="radio">
+        <label for="s2_1" onclick="">Niepewne</label>
+
+        <input id="s2_2" name="s2" type="radio" checked>
+        <label for="s2_2" onclick="">Chyba poprawne</label>
+
+        <input id="s2_3" name="s2" type="radio">
+        <label for="s2_3" onclick="">Poprawne!</label>
+
+        <a></a>
       </div>
     </div>
+  </main>
 </template>
 
 <script>
 import Translation from "./SingleTranslation.vue";
+import "css-toggle-switch/dist/toggle-switch.css";
 
 export default {
   components: {
@@ -85,18 +112,60 @@ export default {
 
 <style lang="scss" scoped>
 @import "../scss/base/variables";
-label {
-  line-height: 30px;
+
+.box {
+  display: inline-block;
+  width: 50%;
 }
-.container {
-  display: grid;
-  grid-template-columns: 420px auto;
-  grid-template-rows: 450px 450px minmax(200px, auto);
-  grid-template-areas:
-    "side-up main"
-    "side-bottom main"
-    ". main";
+
+.label {
+  display: block;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  font-weight: 700;
 }
+
+.btn {
+  display: block;
+  font-size: 0.76em;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-top: 3px #000 solid;
+  border-bottom: 3px #000 solid;
+  &--load {
+    background-color: lighten(#000, 10%);
+    color: #eee;
+  }
+  &--copy {
+    background-color: lighten(#000, 20%);
+    color: #ddd;
+  }
+  &:hover {
+    color: #000;
+    border-color: darken($secondary-color, 20%);
+    background-color: $secondary-color;
+  }
+}
+
+.original-box {
+  &__title {
+    background-color: $secondary-color;
+  }
+}
+
+.result-box {
+  &__title {
+    background-color: darken($secondary-color, 15%);
+  }
+}
+
 .textarea {
   box-sizing: border-box;
   margin: 0;
@@ -106,60 +175,5 @@ label {
   display: block;
   outline: none;
   resize: none;
-}
-.side-block_top {
-  grid-area: side-up;
-  padding: 10px;
-}
-.side-block_bottom {
-  grid-area: side-bottom;
-  padding: 10px;
-}
-.list-of-sentences {
-  grid-area: main;
-}
-.form {
-  background-color: $primary-color;
-  width: 100%;
-  bottom: 0;
-  position: fixed;
-  display: grid;
-  grid-template-columns: auto 200px;
-  grid-template-rows: 60px 60px 60px;
-  grid-template-areas:
-    "text-original btn"
-    "text-translated btn"
-    "input-block btn";
-}
-.textblock {
-  font-size: 1.4em;
-  line-height: 60px;
-  padding-left: 12px;
-  margin: 0;
-}
-.textblock:first-of-type {
-  font-weight: bold;
-}
-.form__textbox {
-  grid-area: input-block;
-  box-sizing: border-box;
-  border: 1px solid $primary-color;
-  padding: 12px;
-  margin: 8px 0 8px 8px;
-}
-.form__button {
-  grid-area: btn;
-  display: block;
-  color: #000;
-  border: 1px solid $primary-color;
-  background: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.78em;
-  text-transform: uppercase;
-  margin: 8px;
-  &:hover {
-    background: $secondary-color;
-  }
 }
 </style>

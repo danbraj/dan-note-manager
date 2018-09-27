@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    height: 80px;
+    height: 200px;
     background-color: $primary-color;
     position: relative;
 }
@@ -27,24 +27,25 @@ li {
 }
 
 a {
-    color: #42b983;
+    color: $secondary-color;
 }
 
 .application {
+    font: 400 26px/1.5 Helvetica, sans-serif;
     font-family: Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 .logo {
-    top: 7px;
-    left: 7px;
+    top: 16px;
+    left: 30px;
     height: 66px;
     position: absolute;
 }
 
 .title {
-    margin: 0 90px;
-    line-height: 80px;
+    margin: 0 120px;
+    line-height: 100px;
     display: inline-block;
 }

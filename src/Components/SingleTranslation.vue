@@ -21,13 +21,13 @@ export default {
 @import '../scss/base/variables';
 .single-translation {
   background-color: lighten($primary-color, 30%);
-  margin: 8px 0;
   display: grid;
-  grid-template: 1fr 1fr / 40px 1fr;
+  grid-template: 1fr 1fr / 80px 1fr;
   &:hover {
     background-color: $secondary-color;
     cursor: pointer;
   }
+  border-bottom: 2px $primary-color solid;
 }
 .translations {
   font-size: 1.2em;
@@ -41,6 +41,7 @@ export default {
 .number {
   grid-area: 1 / 1 / 3 / 2;
   margin: auto;
+  font-size: 2em;
   font-weight: 600;
 }
 .original {
